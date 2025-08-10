@@ -1,7 +1,7 @@
 {
-  "name": "pythontutor-c-visualizer using python tutor",
+  "name": "CodeViz",
   "version": "1.0.0",
-  "description": "A simple Python Tutor style C code visualizer using iframe and CodeMirror",
+  "description": "A simple Python Tutor style code visualizer using iframe and CodeMirror",
   "main": "index.html",
   "scripts": {
     "start": "live-server --port=3000 --open=index.html",
