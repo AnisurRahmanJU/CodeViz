@@ -148,7 +148,8 @@ printf("Static part - Initialized (Data): %s\\n", value_static_init);
 printf("Static part - Uninitialized (BSS): %s\\n", value_static_uninit);
 }`,
 
-cpp: `#include <iostream>
+cpp: `// Full Memory Layout in C++
+#include <iostream>
 #include <cstring>
 #include <cstdlib>
 using namespace std;
@@ -399,6 +400,7 @@ main();`
 
 </body>
 </html>
+
 
 
 
