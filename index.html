@@ -169,7 +169,7 @@ int main() {
     // Step 1: malloc
     value_heap_malloc = (char*)malloc(30 * sizeof(char));
     if (!value_heap_malloc) {
-        cout << "Heap part - malloc: Allocation failed\n";
+        cout << "Heap part - malloc: Allocation failed" << endl;
         return 1;
     }
     strcpy(value_heap_malloc, "Dynamically allocated string.");
@@ -178,7 +178,7 @@ int main() {
     // Step 2: calloc
     value_heap_calloc = (char*)calloc(30, sizeof(char));
     if (!value_heap_calloc) {
-        cout << "Heap part - calloc: Allocation failed\n";
+        cout << "Heap part - calloc: Allocation failed" << endl;
         free(value_heap_malloc);
         return 1;
     }
@@ -188,7 +188,7 @@ int main() {
     // Step 3: realloc
     value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
     if (!value_heap_realloc) {
-        cout << "Heap part - realloc: Allocation failed\n";
+        cout << "Heap part - realloc: Allocation failed" << endl;
         free(value_heap_calloc);
         free(value_heap_malloc);
         return 1;
@@ -205,7 +205,7 @@ int main() {
     show_static_and_stack();
 
     // -------- TEXT PART --------
-    cout << "Text part: main() and show_static_and_stack() are in the Text segment.\n";
+    cout << "Text part: main() and show_static_and_stack() are in the Text segment." << endl;
 
     // -------- CLEAN UP --------
     free(value_heap_malloc);
@@ -399,5 +399,6 @@ main();`
 
 </body>
 </html>
+
 
 
