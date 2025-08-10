@@ -1,0 +1,22 @@
+{
+  "name": "pythontutor-c-visualizer using python tutor",
+  "version": "1.0.0",
+  "description": "A simple Python Tutor style C code visualizer using iframe and CodeMirror",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000 --open=index.html",
+    "build": "echo \"No build step configured\""
+  },
+  "keywords": [
+    "python-tutor",
+    "code-visualizer",
+    "codemirror",
+    "iframe",
+    "c-language"
+  ],
+  "author": "Md. Anisur Rahman",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
