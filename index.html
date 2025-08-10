@@ -149,29 +149,214 @@ printf("Static part - Uninitialized (BSS): %s\\n", value_static_uninit);
 }`,
 
 cpp: `#include <iostream>
+#include <cstring>
+#include <cstdlib>
 using namespace std;
 
+// -------- GLOBAL VARIABLES --------
+char value_global_init[] = "Global Init";   // Data segment
+char value_global_uninit[15];              // BSS segment (uninitialized)
+
+// Function declaration
+void show_static_and_stack();
+
 int main() {
-    cout << "Hello, C++!" << endl;
+    // -------- HEAP VARIABLES --------
+    char *value_heap_malloc;
+    char *value_heap_calloc;
+    char *value_heap_realloc;
+
+    // Step 1: malloc
+    value_heap_malloc = (char*)malloc(30 * sizeof(char));
+    if (!value_heap_malloc) {
+        cout << "Heap part - malloc: Allocation failed\n";
+        return 1;
+    }
+    strcpy(value_heap_malloc, "Dynamically allocated string.");
+    cout << "Heap part - malloc: " << value_heap_malloc << endl;
+
+    // Step 2: calloc
+    value_heap_calloc = (char*)calloc(30, sizeof(char));
+    if (!value_heap_calloc) {
+        cout << "Heap part - calloc: Allocation failed\n";
+        free(value_heap_malloc);
+        return 1;
+    }
+    strcpy(value_heap_calloc, value_heap_malloc);
+    cout << "Heap part - calloc: " << value_heap_calloc << endl;
+
+    // Step 3: realloc
+    value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
+    if (!value_heap_realloc) {
+        cout << "Heap part - realloc: Allocation failed\n";
+        free(value_heap_calloc);
+        free(value_heap_malloc);
+        return 1;
+    }
+    strcat(value_heap_realloc, " With more reallocated content");
+    cout << "Heap part - realloc: " << value_heap_realloc << endl;
+
+    // -------- GLOBAL VARIABLES OUTPUT --------
+    strcpy(value_global_uninit, "Global Uninit");
+    cout << "Global part - Initialized: " << value_global_init << endl;
+    cout << "Global part - Uninitialized (BSS): " << value_global_uninit << endl;
+
+    // -------- STATIC & STACK --------
+    show_static_and_stack();
+
+    // -------- TEXT PART --------
+    cout << "Text part: main() and show_static_and_stack() are in the Text segment.\n";
+
+    // -------- CLEAN UP --------
+    free(value_heap_malloc);
+    free(value_heap_realloc);
+
     return 0;
+}
+
+void show_static_and_stack() {
+    // -------- STATIC --------
+    static char value_static_init[] = "Static Init";   // Data segment
+    static char value_static_uninit[15];               // BSS segment
+    strcpy(value_static_uninit, "Static Uninit");
+
+    // -------- STACK --------
+    char value_stack[] = "Stack Var"; // Stack segment
+    cout << "Stack part: " << value_stack << endl;
+    cout << "Static part - Initialized (Data): " << value_static_init << endl;
+    cout << "Static part - Uninitialized (BSS): " << value_static_uninit << endl;
 }`,
 
-python: `def greet():
-    print("Hello, Python!")
+python: `# -------- GLOBAL VARIABLES --------
+value_global_init = "Global Init"  # Simulated Data segment
+value_global_uninit = None         # Simulated BSS
 
-greet()`,
+def show_static_and_stack():
+    # -------- STATIC --------
+    if not hasattr(show_static_and_stack, "value_static_init"):
+        show_static_and_stack.value_static_init = "Static Init"  # Data
+        show_static_and_stack.value_static_uninit = None         # BSS
+    
+    # Assigning static uninit
+    show_static_and_stack.value_static_uninit = "Static Uninit"
+    
+    # -------- STACK --------
+    value_stack = "Stack Var"  # Simulated stack
+    print(f"Stack part: {value_stack}")
+    print(f"Static part - Initialized (Data): {show_static_and_stack.value_static_init}")
+    print(f"Static part - Uninitialized (BSS): {show_static_and_stack.value_static_uninit}")
 
-java: `public class HelloWorld {
+def main():
+    global value_global_uninit
+
+    # -------- HEAP VARIABLES --------
+    value_heap_malloc = "Dynamically allocated string."
+    print(f"Heap part - malloc: {value_heap_malloc}")
+
+    value_heap_calloc = value_heap_malloc
+    print(f"Heap part - calloc: {value_heap_calloc}")
+
+    value_heap_realloc = value_heap_calloc + " With more reallocated content"
+    print(f"Heap part - realloc: {value_heap_realloc}")
+
+    # -------- GLOBAL VARIABLES OUTPUT --------
+    value_global_uninit = "Global Uninit"
+    print(f"Global part - Initialized: {value_global_init}")
+    print(f"Global part - Uninitialized (BSS): {value_global_uninit}")
+
+    # -------- STATIC & STACK --------
+    show_static_and_stack()
+
+    # -------- TEXT PART --------
+    print("Text part: main() and show_static_and_stack() are in the Text segment.")
+
+if __name__ == "__main__":
+    main()`,
+
+java: `public class MemoryLayout {
+    // -------- GLOBAL VARIABLES --------
+    static String value_global_init = "Global Init"; // Data segment
+    static String value_global_uninit;              // BSS segment
+
     public static void main(String[] args) {
-        System.out.println("Hello, Java!");
+        // -------- HEAP VARIABLES --------
+        String value_heap_malloc = "Dynamically allocated string.";
+        System.out.println("Heap part - malloc: " + value_heap_malloc);
+
+        String value_heap_calloc = value_heap_malloc;
+        System.out.println("Heap part - calloc: " + value_heap_calloc);
+
+        String value_heap_realloc = value_heap_calloc + " With more reallocated content";
+        System.out.println("Heap part - realloc: " + value_heap_realloc);
+
+        // -------- GLOBAL VARIABLES OUTPUT --------
+        value_global_uninit = "Global Uninit";
+        System.out.println("Global part - Initialized: " + value_global_init);
+        System.out.println("Global part - Uninitialized (BSS): " + value_global_uninit);
+
+        // -------- STATIC & STACK --------
+        show_static_and_stack();
+
+        // -------- TEXT PART --------
+        System.out.println("Text part: main() and show_static_and_stack() are in the Text segment.");
+    }
+
+    static void show_static_and_stack() {
+        // -------- STATIC --------
+        final String value_static_init = "Static Init"; // Data segment
+        String value_static_uninit = "Static Uninit";   // BSS
+
+        // -------- STACK --------
+        String value_stack = "Stack Var";
+        System.out.println("Stack part: " + value_stack);
+        System.out.println("Static part - Initialized (Data): " + value_static_init);
+        System.out.println("Static part - Uninitialized (BSS): " + value_static_uninit);
     }
 }`,
 
-javascript: `function greet() {
-    console.log("Hello, JavaScript!");
+javascript: `// -------- GLOBAL VARIABLES --------
+let value_global_init = "Global Init"; // Data segment
+let value_global_uninit;               // BSS segment
+
+function show_static_and_stack() {
+    // -------- STATIC --------
+    if (!show_static_and_stack.value_static_init) {
+        show_static_and_stack.value_static_init = "Static Init"; // Data segment
+        show_static_and_stack.value_static_uninit = undefined;   // BSS
+    }
+    show_static_and_stack.value_static_uninit = "Static Uninit";
+
+    // -------- STACK --------
+    let value_stack = "Stack Var"; // Stack segment
+    console.log("Stack part:", value_stack);
+    console.log("Static part - Initialized (Data):", show_static_and_stack.value_static_init);
+    console.log("Static part - Uninitialized (BSS):", show_static_and_stack.value_static_uninit);
 }
 
-greet();`
+function main() {
+    // -------- HEAP VARIABLES --------
+    let value_heap_malloc = "Dynamically allocated string.";
+    console.log("Heap part - malloc:", value_heap_malloc);
+
+    let value_heap_calloc = value_heap_malloc;
+    console.log("Heap part - calloc:", value_heap_calloc);
+
+    let value_heap_realloc = value_heap_calloc + " With more reallocated content";
+    console.log("Heap part - realloc:", value_heap_realloc);
+
+    // -------- GLOBAL VARIABLES OUTPUT --------
+    value_global_uninit = "Global Uninit";
+    console.log("Global part - Initialized:", value_global_init);
+    console.log("Global part - Uninitialized (BSS):", value_global_uninit);
+
+    // -------- STATIC & STACK --------
+    show_static_and_stack();
+
+    // -------- TEXT PART --------
+    console.log("Text part: main() and show_static_and_stack() are in the Text segment.");
+}
+
+main();`
     };
 
     const languageModes = {
@@ -214,4 +399,5 @@ greet();`
 
 </body>
 </html>
+
 
