@@ -60,89 +60,83 @@
   <script>
     const sampleCodes = {
       c: `// Memory Layout in C
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-// -------- GLOBAL VARIABLES --------
-char value_global_init[] = "Global Init";   // Data segment
-char value_global_uninit[15];              // BSS segment (uninitialized)
-
-// Function declaration (Text segment)
-void show_static_and_stack();
-
-int main()
-{
-    // -------- HEAP VARIABLES --------
-    char *value_heap_malloc;
-    char *value_heap_calloc;
-    char *value_heap_realloc;
-
-    // Step 1: malloc
-    value_heap_malloc = (char*)malloc(30 * sizeof(char));
-    if (value_heap_malloc == NULL)
-    {
-        printf("Heap part - malloc: Allocation failed\n");
-        return 1;
-    }
-    strcpy(value_heap_malloc, "Dynamically allocated string.");
-    printf("Heap part - malloc: %s\n", value_heap_malloc);
-
-    // Step 2: calloc
-    value_heap_calloc = (char*)calloc(30, sizeof(char));
-    if (value_heap_calloc == NULL)
-    {
-        printf("Heap part - calloc: Allocation failed\n");
-        free(value_heap_malloc);
-        return 1;
-    }
-    strcpy(value_heap_calloc, value_heap_malloc);
-    printf("Heap part - calloc: %s\n", value_heap_calloc);
-
-    // Step 3: realloc
-    value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
-    if (value_heap_realloc == NULL)
-    {
-        printf("Heap part - realloc: Allocation failed\n");
-        free(value_heap_calloc);
-        free(value_heap_malloc);
-        return 1;
-    }
-    strcat(value_heap_realloc, " With more reallocated content");
-    printf("Heap part - realloc: %s\n", value_heap_realloc);
-
-    // -------- GLOBAL VARIABLES OUTPUT --------
-    strcpy(value_global_uninit, "Global Uninit");
-    printf("Global part - Initialized: %s\n", value_global_init);
-    printf("Global part - Uninitialized (BSS): %s\n", value_global_uninit);
-
-    // -------- STATIC & STACK --------
-    show_static_and_stack();
-
-    // -------- TEXT PART --------
-    printf("Text part: main() and show_static_and_stack() are in the Text segment.\n");
-
-    // -------- CLEAN UP --------
-    free(value_heap_malloc);
-    free(value_heap_realloc);
-
-    return 0;
-}
-
-void show_static_and_stack()
-{
-    // -------- STATIC --------
-    static char value_static_init[] = "Static Init";   // Data segment
-    static char value_static_uninit[15];               // BSS segment
-    strcpy(value_static_uninit, "Static Uninit");
-
-    // -------- STACK --------
-    char value_stack[] = "Stack Var"; // Stack segment
-
-    printf("Stack part: %s\n", value_stack);
-    printf("Static part - Initialized (Data): %s\n", value_static_init);
-    printf("Static part - Uninitialized (BSS): %s\n", value_static_uninit);
-}`,
+      #include <stdio.h>
+      #include <stdlib.h>
+      #include <string.h>
+      // -------- GLOBAL VARIABLES --------
+      char value_global_init[] = "Global Init";   // Data segment
+      char value_global_uninit[15];              // BSS segment (uninitialized)
+      // Function declaration (Text segment)
+      void show_static_and_stack();
+      int main()
+      {
+      // -------- HEAP VARIABLES --------
+      char *value_heap_malloc;
+      char *value_heap_calloc;
+      char *value_heap_realloc;
+      
+      // Step 1: malloc
+      value_heap_malloc = (char*)malloc(30 * sizeof(char));
+      if (value_heap_malloc == NULL)
+      {
+      printf("Heap part - malloc: Allocation failed\n");
+      return 1;
+      }
+      strcpy(value_heap_malloc, "Dynamically allocated string.");
+      printf("Heap part - malloc: %s\n", value_heap_malloc);
+      
+      // Step 2: calloc
+      value_heap_calloc = (char*)calloc(30, sizeof(char));
+      if (value_heap_calloc == NULL)
+      {
+      printf("Heap part - calloc: Allocation failed\n");
+      free(value_heap_malloc);
+      return 1;
+      }
+      strcpy(value_heap_calloc, value_heap_malloc);
+      printf("Heap part - calloc: %s\n", value_heap_calloc);
+      
+      // Step 3: realloc
+      value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
+      if (value_heap_realloc == NULL)
+      {
+      printf("Heap part - realloc: Allocation failed\n");
+      free(value_heap_calloc);
+      free(value_heap_malloc);
+      return 1;
+      }
+      strcat(value_heap_realloc, " With more reallocated content");
+      printf("Heap part - realloc: %s\n", value_heap_realloc);
+      
+      // -------- GLOBAL VARIABLES OUTPUT --------
+      strcpy(value_global_uninit, "Global Uninit");
+      printf("Global part - Initialized: %s\n", value_global_init);
+      printf("Global part - Uninitialized (BSS): %s\n", value_global_uninit);
+      
+      // -------- STATIC & STACK --------
+      show_static_and_stack();
+      
+      // -------- TEXT PART --------
+      printf("Text part: main() and show_static_and_stack() are in the Text segment.\n");
+      
+      // -------- CLEAN UP --------
+      free(value_heap_malloc);
+      free(value_heap_realloc);
+      return 0;
+      }
+      void show_static_and_stack()
+      {
+      // -------- STATIC --------
+      static char value_static_init[] = "Static Init";   // Data segment
+      static char value_static_uninit[15];               // BSS segment
+      strcpy(value_static_uninit, "Static Uninit");
+      
+      // -------- STACK --------
+      char value_stack[] = "Stack Var"; // Stack segment
+      printf("Stack part: %s\n", value_stack);
+      printf("Static part - Initialized (Data): %s\n", value_static_init);
+      printf("Static part - Uninitialized (BSS): %s\n", value_static_uninit);
+      }`,
       cpp: `#include <iostream>
 using namespace std;
 
@@ -206,6 +200,7 @@ greet();`
 
 </body>
 </html>
+
 
 
 
