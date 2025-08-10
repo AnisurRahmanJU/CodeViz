@@ -11,8 +11,8 @@
 }
 
 .CodeMirror {
-  font-family: Consolas, "Courier New", monospace !important;
-  font-size: 14px;
+  font-family:'JetBrains Mono', monospace;
+  font-size: 20px;
   height: 400px;
 }
 
@@ -28,4 +28,5 @@
   border: none;
   display: block;
 }
+
 
