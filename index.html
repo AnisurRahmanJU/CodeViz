@@ -25,6 +25,7 @@
   <style>
     #editor {
       height: 300px;
+      font-family: 'JetBrains Mono', monospace;
     }
   </style>
 </head>
@@ -36,8 +37,8 @@
     </h1></center>
 
     <!-- Language selector above the editor -->
-    <label style="font-family:'JetBrains Mono', monospace;" for="language-select" class="form-label mt-3">Select Language:</label>
-    <select style="font-family:'JetBrains Mono', monospace;"  id="language-select" class="form-select w-auto mb-3">
+    <label for="language-select" class="form-label mt-3">Select Language:</label>
+    <select id="language-select" class="form-select w-auto mb-3">
       <option value="c">C</option>
       <option value="cpp">C++</option>
       <option value="python">Python</option>
@@ -45,10 +46,10 @@
       <option value="javascript">JavaScript</option>
     </select>
 
-    <!-- Your requested editor and button HTML -->
+    <!-- CodeMirror editor -->
     <div id="editor" class="border rounded"></div><br> 
-    <div><p style="font-family:'JetBrains Mono', monospace; color: red;">Select Language After Visualize Code...</p></div>
-    <button style="font-family:'JetBrains Mono', monospace;" id="visualize-btn" class="btn btn-primary mt-3">Visualize Code</button>
+    <div><p style="color: red;">Select Language After Visualize Code...</p></div>
+    <button id="visualize-btn" class="btn btn-primary mt-3">Visualize Code</button>
 
     <div id="iframe-container" class="mt-4 border rounded shadow-sm" style="height: 600px; display: none;"></div>
   </div>
@@ -59,101 +60,106 @@
 
   <script>
     const sampleCodes = {
-      c: `// Memory Layout in C
-      #include <stdio.h>
-      #include <stdlib.h>
-      #include <string.h>
-      // -------- GLOBAL VARIABLES --------
-      char value_global_init[] = "Global Init";   // Data segment
-      char value_global_uninit[15];              // BSS segment (uninitialized)
-      // Function declaration (Text segment)
-      void show_static_and_stack();
-      int main()
-      {
-      // -------- HEAP VARIABLES --------
-      char *value_heap_malloc;
-      char *value_heap_calloc;
-      char *value_heap_realloc;
-      
-      // Step 1: malloc
-      value_heap_malloc = (char*)malloc(30 * sizeof(char));
-      if (value_heap_malloc == NULL)
-      {
-      printf("Heap part - malloc: Allocation failed\n");
-      return 1;
-      }
-      strcpy(value_heap_malloc, "Dynamically allocated string.");
-      printf("Heap part - malloc: %s\n", value_heap_malloc);
-      
-      // Step 2: calloc
-      value_heap_calloc = (char*)calloc(30, sizeof(char));
-      if (value_heap_calloc == NULL)
-      {
-      printf("Heap part - calloc: Allocation failed\n");
-      free(value_heap_malloc);
-      return 1;
-      }
-      strcpy(value_heap_calloc, value_heap_malloc);
-      printf("Heap part - calloc: %s\n", value_heap_calloc);
-      
-      // Step 3: realloc
-      value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
-      if (value_heap_realloc == NULL)
-      {
-      printf("Heap part - realloc: Allocation failed\n");
-      free(value_heap_calloc);
-      free(value_heap_malloc);
-      return 1;
-      }
-      strcat(value_heap_realloc, " With more reallocated content");
-      printf("Heap part - realloc: %s\n", value_heap_realloc);
-      
-      // -------- GLOBAL VARIABLES OUTPUT --------
-      strcpy(value_global_uninit, "Global Uninit");
-      printf("Global part - Initialized: %s\n", value_global_init);
-      printf("Global part - Uninitialized (BSS): %s\n", value_global_uninit);
-      
-      // -------- STATIC & STACK --------
-      show_static_and_stack();
-      
-      // -------- TEXT PART --------
-      printf("Text part: main() and show_static_and_stack() are in the Text segment.\n");
-      
-      // -------- CLEAN UP --------
-      free(value_heap_malloc);
-      free(value_heap_realloc);
-      return 0;
-      }
-      void show_static_and_stack()
-      {
-      // -------- STATIC --------
-      static char value_static_init[] = "Static Init";   // Data segment
-      static char value_static_uninit[15];               // BSS segment
-      strcpy(value_static_uninit, "Static Uninit");
-      
-      // -------- STACK --------
-      char value_stack[] = "Stack Var"; // Stack segment
-      printf("Stack part: %s\n", value_stack);
-      printf("Static part - Initialized (Data): %s\n", value_static_init);
-      printf("Static part - Uninitialized (BSS): %s\n", value_static_uninit);
-      }`,
-      cpp: `#include <iostream>
+c: `// Memory Layout in C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+// -------- GLOBAL VARIABLES --------
+char value_global_init[] = "Global Init";   // Data segment
+char value_global_uninit[15];              // BSS segment (uninitialized)
+// Function declaration (Text segment)
+void show_static_and_stack();
+int main()
+{
+// -------- HEAP VARIABLES --------
+char *value_heap_malloc;
+char *value_heap_calloc;
+char *value_heap_realloc;
+
+// Step 1: malloc
+value_heap_malloc = (char*)malloc(30 * sizeof(char));
+if (value_heap_malloc == NULL)
+{
+    printf("Heap part - malloc: Allocation failed\\n");
+    return 1;
+}
+strcpy(value_heap_malloc, "Dynamically allocated string.");
+printf("Heap part - malloc: %s\\n", value_heap_malloc);
+
+// Step 2: calloc
+value_heap_calloc = (char*)calloc(30, sizeof(char));
+if (value_heap_calloc == NULL)
+{
+    printf("Heap part - calloc: Allocation failed\\n");
+    free(value_heap_malloc);
+    return 1;
+}
+strcpy(value_heap_calloc, value_heap_malloc);
+printf("Heap part - calloc: %s\\n", value_heap_calloc);
+
+// Step 3: realloc
+value_heap_realloc = (char*)realloc(value_heap_calloc, 60 * sizeof(char));
+if (value_heap_realloc == NULL)
+{
+    printf("Heap part - realloc: Allocation failed\\n");
+    free(value_heap_calloc);
+    free(value_heap_malloc);
+    return 1;
+}
+strcat(value_heap_realloc, " With more reallocated content");
+printf("Heap part - realloc: %s\\n", value_heap_realloc);
+
+// -------- GLOBAL VARIABLES OUTPUT --------
+strcpy(value_global_uninit, "Global Uninit");
+printf("Global part - Initialized: %s\\n", value_global_init);
+printf("Global part - Uninitialized (BSS): %s\\n", value_global_uninit);
+
+// -------- STATIC & STACK --------
+show_static_and_stack();
+
+// -------- TEXT PART --------
+printf("Text part: main() and show_static_and_stack() are in the Text segment.\\n");
+
+// -------- CLEAN UP --------
+free(value_heap_malloc);
+free(value_heap_realloc);
+return 0;
+}
+
+void show_static_and_stack()
+{
+// -------- STATIC --------
+static char value_static_init[] = "Static Init";   // Data segment
+static char value_static_uninit[15];               // BSS segment
+strcpy(value_static_uninit, "Static Uninit");
+
+// -------- STACK --------
+char value_stack[] = "Stack Var"; // Stack segment
+printf("Stack part: %s\\n", value_stack);
+printf("Static part - Initialized (Data): %s\\n", value_static_init);
+printf("Static part - Uninitialized (BSS): %s\\n", value_static_uninit);
+}`,
+
+cpp: `#include <iostream>
 using namespace std;
 
 int main() {
     cout << "Hello, C++!" << endl;
     return 0;
 }`,
-      python: `def greet():
+
+python: `def greet():
     print("Hello, Python!")
 
 greet()`,
-      java: `public class HelloWorld {
+
+java: `public class HelloWorld {
     public static void main(String[] args) {
         System.out.println("Hello, Java!");
     }
 }`,
-      javascript: `function greet() {
+
+javascript: `function greet() {
     console.log("Hello, JavaScript!");
 }
 
@@ -178,7 +184,7 @@ greet();`
         theme: 'eclipse',
         lineNumbers: true,
         lineWrapping: true,
-        value: sampleCodes['c'],
+        value: sampleCodes['c'].trim(),
         viewportMargin: Infinity,
       });
 
@@ -187,7 +193,7 @@ greet();`
       languageSelect.addEventListener('change', () => {
         const lang = languageSelect.value;
         editor.setOption('mode', languageModes[lang]);
-        editor.setValue(sampleCodes[lang]);
+        editor.setValue(sampleCodes[lang].trim());
       });
 
       visualizeBtn.addEventListener('click', () => {
@@ -200,11 +206,3 @@ greet();`
 
 </body>
 </html>
-
-
-
-
-
-
-
-
