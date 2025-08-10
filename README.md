@@ -1,16 +1,16 @@
-# c-viz
+# ptcodeviz
 
-## Python Tutor C Code Visualizer
+## Python Tutor Code Visualizer
 
-A lightweight web-based C code visualizer inspired by [Python Tutor](https://pythontutor.com/).  
-This project lets users write C code in a CodeMirror-powered editor, then visualize the code execution step-by-step using Python Tutor’s official visualization tool embedded via iframe.
+A lightweight web-based code visualizer inspired by [Python Tutor](https://pythontutor.com/).  
+This project lets users write code in a CodeMirror-powered editor, then visualize the code execution step-by-step using Python Tutor’s official visualization tool embedded via iframe.
 
 ---
 
 ## Features
 
 - Clean, responsive UI using Bootstrap and CodeMirror
-- Syntax-highlighted, editable C code editor
+- Syntax-highlighted, editable code editor
 - Seamless transition between code input page (`index.html`) and visualization page (`visualizer.html`)
 - URL encoding of code for easy sharing and bookmarking
 - Embedded Python Tutor visualization via iframe using `render.html` for direct execution output display
@@ -28,13 +28,10 @@ This project lets users write C code in a CodeMirror-powered editor, then visual
 
 ---
 
-
----
-
 ## Usage
 
 - Open `index.html` in a modern browser.
-- Write or paste your C code in the editor.
+- Write or paste your code in the editor.
 - Click **Visualize Code** to open `visualizer.html` with your code loaded.
 - Inside the embedded Python Tutor iframe, manually click **Visualize Execution** if visualization does not start automatically.
 - Step through your program’s execution using Python Tutor’s interface.
