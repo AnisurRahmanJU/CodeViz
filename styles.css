@@ -1,5 +1,5 @@
 .custom-header {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  font-family:'JetBrains Mono', monospace; 
   font-weight: normal;
   font-size: 1.5rem; /* ~24px */
   color: #081430;
@@ -28,6 +28,7 @@
   border: none;
   display: block;
 }
+
 
 
 
