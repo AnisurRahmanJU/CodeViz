@@ -1,0 +1,30 @@
+.custom-header {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem; /* ~24px */
+  color: navy;
+  text-align: center;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.3;
+  user-select: none;
+  letter-spacing: 0.03em;
+}
+
+.CodeMirror {
+  font-family: Consolas, "Courier New", monospace !important;
+  font-size: 14px;
+  height: 400px;
+}
+
+#iframe-container {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+#iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
