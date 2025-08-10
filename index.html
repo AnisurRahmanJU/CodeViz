@@ -23,12 +23,17 @@
 
   <!-- Custom styles -->
   <style>
-    body{
+    body {
       font-family: 'JetBrains Mono', monospace;
     }
     #editor {
       height: 300px;
       font-family: 'JetBrains Mono', monospace;
+    }
+    /* Horizontal scroll for long lines */
+    .CodeMirror {
+      overflow-x: auto;
+      white-space: pre; /* Prevent wrapping */
     }
   </style>
 </head>
@@ -186,7 +191,7 @@ greet();`
         mode: languageModes['c'], // default C
         theme: 'eclipse',
         lineNumbers: true,
-        lineWrapping: true,
+        lineWrapping: false, // ✅ disable wrapping
         value: sampleCodes['c'].trim(),
         viewportMargin: Infinity,
       });
@@ -209,4 +214,3 @@ greet();`
 
 </body>
 </html>
-
